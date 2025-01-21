@@ -1,9 +1,11 @@
 'use client'
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const Email = () => {
   const [isValid, setIsValid] = useState(false);
+  const router = useRouter();
   const validateEmail = (e) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(e.target.value)) {
@@ -24,13 +26,13 @@ const Email = () => {
             onChange={(e) => validateEmail(e)}
           />
         </div>
-        <Link
-          href="/quiz"
+        <button
           className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
           style={!isValid ? { pointerEvents: 'none' } : {}}
+          onClick={() => router.push("/quiz")}
         >
           Submit
-        </Link>
+        </button>
         <div className="mt-4">Enter a valid email to proceed with the test.</div>
       </div>
     </div>
