@@ -1,8 +1,5 @@
 import Result from "@/components/Result";
-import React from "react";
 
-const result = () => {
+export default function Result() {
   return <Result />;
-};
-
-export default result;
+}

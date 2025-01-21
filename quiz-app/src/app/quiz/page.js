@@ -1,11 +1,9 @@
-"use client";
 import Questions from "@/components/Questions";
-const quiz = () => {
+export default function Quiz() {
   return (
-    <div className="">
+    <div>
       <Questions />
     </div>
   );
-};
+}
 
-export default quiz;
