@@ -6,6 +6,8 @@ import { getStatusStyle } from "@/utils/getStatusStyle";
 import Timer from "./Timer";
 import { useAnswersStore, useQuestionsStore } from "@/store/store";
 import { useRouter } from "next/navigation";
+import { decode } from "he";
+import Loader from "./Loader";
 export default function Questions() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
@@ -22,7 +24,7 @@ export default function Questions() {
       try {
         const data = await getQuestions().then((res) => res);
         const finalData = data?.map((ques, idx) => {
-          const { type, question, incorrect_answers, correct_answer } = ques;
+          const { question, incorrect_answers, correct_answer } = ques;
           return {
             id: idx,
             question,
@@ -41,6 +43,7 @@ export default function Questions() {
         });
         setQuestions(finalData);
         setAnswers(new Array(finalData.length).fill(""));
+        setIsLoading(false);
       } catch (err) {
         console.log(err);
       }
@@ -53,9 +56,6 @@ export default function Questions() {
     if (questions[questionNumber]?.status === "inactive") {
       setStatus(questionNumber, "active");
     }
-    question.current.innerHTML =
-      `${questionNumber + 1}. ` +
-      (questions && questions[questionNumber]?.question);
   }, [questionNumber, questions, setStatus]);
   const handleClick = (e, idx) => {
     setQuestionNumber(() => idx);
@@ -63,7 +63,18 @@ export default function Questions() {
       setStatus(idx, "active");
     }
   };
-
+  if (isLoading)
+    return (
+      <div className="flex items-center justify-center h-[100vh]">
+        <Loader />
+      </div>
+    );
+  if (!questions)
+    return (
+      <div className="flex items-center justify-center">
+        Oops No questions to display
+      </div>
+    );
   return (
     <div className="flex md:grid md:grid-cols-4 min-h-[100vh] gap-2 md:gap-4">
       <div className="md:col-span-1 bg-blue-300 flex-1 flex-col items-center px-1 py-2 w-[100%] h-[100%] md:px-4">
@@ -93,7 +104,9 @@ export default function Questions() {
           <Timer />
           <button
             className="bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded-md text-[18px] font-[500] text-white"
-            onClick={() => router.push("/result")}
+            onClick={() => {
+              router.push("/result");
+            }}
           >
             Submit
           </button>
@@ -118,7 +131,10 @@ export default function Questions() {
           </button>
         </div>
         <div>
-          <div className="font-[500] mt-[3%]" ref={question}></div>
+          <div className="font-[500] mt-[3%]" ref={question}>
+            {questionNumber + 1}.{" "}
+            {questions && decode(questions[questionNumber]?.question)}
+          </div>
           <div className="font-[400] mt-3 w-[100%]" ref={options}>
             {questions &&
               questions[questionNumber]?.options.map((ele) => {

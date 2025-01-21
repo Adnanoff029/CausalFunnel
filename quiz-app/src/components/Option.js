@@ -1,4 +1,5 @@
 import { useAnswersStore, useQuestionsStore } from "@/store/store";
+import { decode } from "he";
 import React, { useEffect, useRef } from "react";
 
 const Option = ({ ele, questionNumber}) => {
@@ -11,12 +12,9 @@ const Option = ({ ele, questionNumber}) => {
   };
 
   const option = useRef(null);
-  useEffect(() => {
-    option.current.innerHTML = ele?.option;
-  }, [ele?.option]);
   return (
     <div
-      className="py-1 px-2 my-2 md:text-[20px] text-black font-[500] transition ease-in-out rounded-md cursor-pointer w-[100%] hover:bg-blue-500 hover:text-white"
+      className="py-1 px-2 my-2 md:text-[20px] text-black font-[500] transition ease-in-out duration-300 rounded-md cursor-pointer w-[100%] hover:bg-blue-500 hover:text-white hover:shadow-2xl hover:shadow-gray-800"
       style={
         answers[questionNumber] === ele.option
           ? {
@@ -26,8 +24,9 @@ const Option = ({ ele, questionNumber}) => {
           : {}
       }
       onClick={(e) => handleOptionClick(e, ele.id)}
-      ref={option}
-    ></div>
+    >
+      {decode(ele.option)}
+    </div>
   );
 };
 
