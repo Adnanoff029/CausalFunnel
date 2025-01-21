@@ -29,12 +29,14 @@ export default function Questions() {
             incorrect_answers,
             correct_answer,
             status: idx === 0 ? "active" : "inactive",
-            options: [...incorrect_answers, correct_answer].map((ele, idx) => {
-              return {
-                id: idx,
-                option: ele,
-              };
-            }),
+            options: [...incorrect_answers, correct_answer]
+              .sort(() => Math.random() - 0.5)
+              .map((ele, idx) => {
+                return {
+                  id: idx,
+                  option: ele,
+                };
+              }),
           };
         });
         setQuestions(finalData);
