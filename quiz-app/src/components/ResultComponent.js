@@ -3,7 +3,7 @@ import { useAnswersStore, useQuestionsStore } from "@/store/store";
 import { decode } from "he";
 import { useRouter } from "next/navigation";
 
-const Result = () => {
+const ResultComponent = () => {
   const questions = useQuestionsStore((state) => state.questions);
   const answer = useAnswersStore((state) => state.answers);
   const router = useRouter();
@@ -79,4 +79,4 @@ const Result = () => {
   );
 };
 
-export default Result;
+export default ResultComponent;
