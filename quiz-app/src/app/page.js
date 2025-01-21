@@ -1,5 +1,5 @@
-import getQuestions from "@/hooks/getQuestions";
+import Email from "@/components/Email";
 
 export default async function Home() {
-  return <div className=""></div>;
+  return <Email />;
 }

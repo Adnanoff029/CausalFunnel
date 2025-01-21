@@ -2,7 +2,7 @@
 import Questions from "@/components/Questions";
 const quiz = () => {
   return (
-    <div className="bg-gray-200 h-[100vh]">
+    <div className="">
       <Questions />
     </div>
   );
